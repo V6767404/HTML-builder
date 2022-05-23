@@ -4,6 +4,16 @@ const curPath = path.join(__dirname, "files");
 const targetPath = path.join(__dirname, "files-copy");
 
 const copyDir = () => {
+  fs.readdir(targetPath, { withFileTypes: true }, (err, trgfiles) => {
+    if (trgfiles) {
+      trgfiles.forEach((file) => {
+        fs.unlink(path.join(targetPath, file.name), (err) => {
+          if (err) throw err;
+        });
+      });
+    }
+  });
+
   fs.mkdir(targetPath, { recursive: true }, (err) => {
     if (err) throw err;
   });
